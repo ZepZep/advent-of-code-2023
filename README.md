@@ -1,6 +1,6 @@
 # 🎄 Advent of Code 2023
 
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ZepZep/advent-of-code-2023/blob/master/LICENSE)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ZepZep/advent-of-code-2023/blob/main/LICENSE)
 
 ## Run
 ```
@@ -14,3 +14,4 @@ python3 py/task01.py
 |  02  |      0.572    |      0.491    |      0.081    |      0.737    |      0.491    |      0.246    |
 |  03  |      5.411    |      5.336    |      0.075    |      5.374    |      5.294    |      0.080    |
 |  04  |      2.380    |      2.181    |      0.199    |      2.310    |      2.041    |      0.269    |
+|  05  |      0.381    |      0.190    |      0.191    |      5.136    |      0.192    |      4.943    |
