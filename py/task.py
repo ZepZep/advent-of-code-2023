@@ -42,11 +42,12 @@ class Task:
         for i, f in enumerate(self.part_fcns):
             self.time_and_run(f, i+1)
 
-    def benchmark(self, repeats=10):
+    def benchmark(self, repeats=10, header=True):
         with open(self.filename) as f:
             self.text = f.read()
 
-        print("\nBENCHMARK:")
+        if header:
+            print("\nBENCHMARK:")
         values = []
         for i, f in enumerate(self.part_fcns):
             timers = []
@@ -54,7 +55,7 @@ class Task:
                 t = self.time_and_run(f, i+1, output=False)
                 timers.append(t)
             values.extend(get_timers_summary(timers))
-        print_bench_values(values, self.tasknum)
+        print_bench_values(values, self.tasknum, header)
 
 
 def mean(it):
@@ -70,11 +71,12 @@ def get_timers_summary(timers):
     return total, None, None
 
 
-def print_bench_values(values, task, unit="ms", prec=" 7.3f", cell_len=15):
-    print("| task ", end="")
-    for i in range(0, len(values), 3):
-        print(f"| p{i//3+1} total [{unit}] | p{i//3+1} parse [{unit}] | p{i//3+1} exec [{unit}]  ", end="")
-    print("|")
+def print_bench_values(values, task, header=True, unit="ms", prec=" 7.3f", cell_len=15):
+    if header:
+        print("| task ", end="")
+        for i in range(0, len(values), 3):
+            print(f"| p{i//3+1} total [{unit}] | p{i//3+1} parse [{unit}] | p{i//3+1} exec [{unit}]  ", end="")
+        print("|")
 
     res = [f"|  {task:02d}  |"]
     for v in values:
