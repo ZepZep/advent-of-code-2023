@@ -1,6 +1,8 @@
 from task import Task
 import re
 import math
+import itertools
+
 
 inster2index = {"L": 0, "R": 1}
 STARTING = "AAA"
@@ -95,6 +97,26 @@ def looper(loopdef):
     start, loop = loopdef
     return itertools.chain(start, itertools.cycle(loop))
 
+def catchup(it, lv, target):
+    while lv < target:
+        # print(lv)
+        lv += next(it)
+    return lv, lv == target
+
+
+def solve_part2_general(loopdefs):
+    fst, *iters = [iter(looper(ld)) for ld in loopdefs]
+    last_values = [0 for _ in iters]
+    cur = 0
+    while True:
+        is_same = True
+        cur += next(fst)
+        for i, it in enumerate(iters):
+            last_values[i], exact = catchup(it, last_values[i], cur)
+            is_same &= exact
+        if is_same:
+            return cur
+
 
 def part1(text, timer):
     instrs, nodes = parse(text)
@@ -113,8 +135,8 @@ def part2(text, timer):
 
     if is_special(lds):
         return solve_part2_special(lds)
-    print("too hard :P")
-    return None
+    print("iterations reduced by factor ~10000, but still takes ~12 minutes")
+    return solve_part2_general(lds)
 
 task = Task(
     8,
@@ -126,4 +148,3 @@ task = Task(
 if __name__ == "__main__":
     task.run()
     task.benchmark(30)
-
