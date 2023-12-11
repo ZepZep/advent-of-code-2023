@@ -24,6 +24,7 @@ def get_expanded_positions(arr, expand_by):
 
     return rs, cs
 
+# slow O(n**2) solution
 @njit
 def get_sum(mat):
     return np.abs(mat-mat.T).sum()//2
@@ -33,20 +34,24 @@ def sum_distances_one_axis(pos):
     # print(np.abs(mat-mat.T))
     return get_sum(mat)
 
+# fast O(n*log(n))
+def sum_distances_one_axis_fast(pos):
+    pos.sort()
+    muls = np.arange(pos.shape[0])
+    return (pos*muls - pos*muls[::-1]).sum()
 
 def part1(text, timer):
     arr = parse(text)
     timer.parsed()
     rs, cs = get_expanded_positions(arr, 1)
-    s = sum_distances_one_axis(rs) + sum_distances_one_axis(cs)
+    s = sum_distances_one_axis_fast(rs) + sum_distances_one_axis_fast(cs)
     return s
-
 
 def part2(text, timer):
     arr = parse(text)
     timer.parsed()
     rs, cs = get_expanded_positions(arr, 999999)
-    s = sum_distances_one_axis(rs) + sum_distances_one_axis(cs)
+    s = sum_distances_one_axis_fast(rs) + sum_distances_one_axis_fast(cs)
     return s
 
 task = Task(
